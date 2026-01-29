@@ -2,7 +2,7 @@ name: Daily API Fetch
 
 on:
   schedule:
-    - cron: '0 8 * * *'   # daily at 08:00 UTC
+    - cron: '45 11 * * *'   # daily at 08:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run script
-        run: python fetch_data.py
+        run: python fetch_AirNowData.py
 
       - name: Commit output
         run: |
