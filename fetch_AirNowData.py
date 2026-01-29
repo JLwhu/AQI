@@ -2,8 +2,13 @@ import requests
 import pandas as pd
 from typing import Optional, Dict, Union
 import logging
-# 设置日志
-logging.basicConfig(level=logging.INFO)
+
+logging.basicConfig(
+    level=logging.INFO,
+    filename="AQI.log",
+    filemode="a",   # append; use "w" to overwrite
+    format="%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 from datetime import datetime, timedelta
 
@@ -314,6 +319,7 @@ def fetch_arinow_observation_MonitoringSite(
 
 if __name__ == "__main__":
     print("\n=== 1. Get Forcast Data 15224 ===")
+    logger.info(f"\n=== 1. Get Forcast Data 15224 ===")
     forcast_date = datetime.now().strftime("%Y-%m-%d")
     data_with_retry = fetch_airnow_forecast_with_retry(
         zip_code="15224",
@@ -324,7 +330,7 @@ if __name__ == "__main__":
     )
 
     # Append result to a txt file
-    output_file = "airnow_forecast.txt"
+    output_file = "airnow_forecast.json"
 
     with open(output_file, "a", encoding="utf-8") as f:
         #f.write(f"\n=== Forecast Date: {forcast_date} ===\n")
@@ -337,6 +343,7 @@ if __name__ == "__main__":
     print(f"Forecast data 15224 appended to {output_file}")
 
     print("\n=== 2. Get Forcast Data 15025 ===")
+    logger.info(f"\n=== 2. Get Forcast Data 15025 ===")
     forcast_date = datetime.now().strftime("%Y-%m-%d")
     data_with_retry = fetch_airnow_forecast_with_retry(
         zip_code="15025",
@@ -364,7 +371,8 @@ if __name__ == "__main__":
         output_csv="airnow_forecast.csv"
     )
 
-    print("=== 3. 24 Hour Observations by Monitoring Site By geographic bounding box===")
+    print("\n=== 3. 24 Hour Observations by Monitoring Site By geographic bounding box===")
+    logger.info(f"\n=== 3. 24 Hour Observations by Monitoring Site By geographic bounding box===")
     enddate = datetime.now().strftime("%Y-%m-%dT%H:%M")
     startdate = (datetime.now() + timedelta(days=-1)).strftime("%Y-%m-%dT%H:%M")
     json_site = fetch_arinow_observation_MonitoringSite(
