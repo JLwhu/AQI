@@ -7,7 +7,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 from datetime import datetime, timedelta
 
-import json
 import csv
 import re
 
@@ -347,7 +346,7 @@ if __name__ == "__main__":
     )
 
     # Append result to a txt file
-    output_file = "airnow_forecast.txt"
+    output_file = "airnow_forecast.json"
 
     with open(output_file, "a", encoding="utf-8") as f:
         #f.write(f"\n=== Forecast Date: {forcast_date} ===\n")
@@ -360,7 +359,7 @@ if __name__ == "__main__":
     print(f"Forecast data 15025 appended to {output_file}")
 
     json_txt_to_csv(
-        input_txt="airnow_forecast.txt",
+        input_txt="airnow_forecast.json",
         output_csv="airnow_forecast.csv"
     )
 
@@ -376,7 +375,7 @@ if __name__ == "__main__":
         format="application/json",
     )
     # Append result to a txt file
-    output_file = "airnow_24HSite.txt"
+    output_file = "airnow_24HSite.json"
 
     with open(output_file, "a", encoding="utf-8") as f:
         if isinstance(json_site, (dict, list)):
@@ -386,6 +385,6 @@ if __name__ == "__main__":
         f.write("\n")
 
     json_txt_to_csv(
-        input_txt="airnow_24HSite.txt",
+        input_txt="airnow_24HSite.json",
         output_csv="airnow_24HSite.csv"
     )
