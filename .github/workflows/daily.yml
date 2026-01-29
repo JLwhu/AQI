@@ -2,7 +2,7 @@ name: Daily API Fetch
 
 on:
   schedule:
-    - cron: '45 11 * * *'   # daily at 08:00 UTC
+    - cron: '30 16 * * *'   # daily at 08:00 UTC
   workflow_dispatch:
 
 jobs:
