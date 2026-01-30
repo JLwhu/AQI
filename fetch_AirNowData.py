@@ -386,7 +386,7 @@ if __name__ == "__main__":
 
     json_txt_to_csv(
         input_txt="airnow_forecast.json",
-        output_csv="airnow_forecast.csv"
+        csv_prefix="airnow_forecast"
     )
 
     print("\n=== 3. 24 Hour Observations by Monitoring Site By geographic bounding box===")
