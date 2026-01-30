@@ -1,3 +1,5 @@
+import os
+
 import requests
 import pandas as pd
 from typing import Optional, Dict, Union
@@ -25,11 +27,17 @@ def flatten_dict(d, parent_key="", sep="_"):
         else:
             items[new_key] = v
     return items
-def json_txt_to_csv(input_txt, output_csv):
+
+def get_monthly_csv_filename(prefix):
+    now = datetime.now()
+    return f"{prefix}_{now.year}_{now.month:02d}.csv"
+def json_txt_to_csv(input_txt, csv_prefix):
     """
     Convert appended JSON records in a txt file to a CSV file.
     Assumes JSON blocks are lists of dictionaries.
     """
+    csv_file = get_monthly_csv_filename(csv_prefix)
+    file_exists = os.path.exists(csv_file)
 
     all_records = []
 
@@ -61,14 +69,24 @@ def json_txt_to_csv(input_txt, output_csv):
                 fieldnames.append(key)
 
     # Write CSV
-    with open(output_csv, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(flattened_records)
+    with open(csv_file, "a", newline="", encoding="utf-8") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-    print(f"Converted {len(flattened_records)} records → {output_csv}")
+        # write header only if new file
+        if not file_exists:
+            writer.writeheader()
 
+        for row in records:
+            writer.writerow(row)
 
+    print(f"Converted {len(flattened_records)} records → {csv_file}")
+
+    # with open(output_csv, "a", newline="", encoding="utf-8") as csvfile:
+    #     writer = csv.DictWriter(f, fieldnames=fieldnames)
+    #     writer.writeheader()
+    #     writer.writerows(flattened_records)
+    #
+    # print(f"Converted {len(flattened_records)} records → {output_csv}")
 def fetch_airnow_forecast(
         zip_code: str,
         date: str,
@@ -395,5 +413,5 @@ if __name__ == "__main__":
 
     json_txt_to_csv(
         input_txt="airnow_24HSite.json",
-        output_csv="airnow_24HSite.csv"
+        csv_prefix="airnow_24HSite"
     )
