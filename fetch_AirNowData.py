@@ -389,29 +389,29 @@ if __name__ == "__main__":
         csv_prefix="airnow_forecast"
     )
 
-    # print("\n=== 3. 24 Hour Observations by Monitoring Site By geographic bounding box===")
-    # logger.info(f"\n=== 3. 24 Hour Observations by Monitoring Site By geographic bounding box===")
-    # enddate = datetime.now().strftime("%Y-%m-%dT%H:%M")
-    # startdate = (datetime.now() + timedelta(days=-1)).strftime("%Y-%m-%dT%H:%M")
-    # json_site = fetch_arinow_observation_MonitoringSite(
-    #     bbox="-80.84, 40.20, -79.69, 40.68",
-    #     startdate=startdate,
-    #     enddate=enddate,
-    #     parameters="ozone,pm25",
-    #     datatype="B",
-    #     format="application/json",
-    # )
-    # # Append result to a txt file
-    # output_file = "airnow_24HSite.json"
-    #
-    # with open(output_file, "a", encoding="utf-8") as f:
-    #     if isinstance(json_site, (dict, list)):
-    #         f.write(json.dumps(json_site, indent=2))
-    #     else:
-    #         f.write(str(json_site))
-    #     f.write("\n")
-    #
-    # json_txt_to_csv(
-    #     input_txt="airnow_24HSite.json",
-    #     csv_prefix="airnow_24HSite"
-    # )
+    print("\n=== 3. 24 Hour Observations by Monitoring Site By geographic bounding box===")
+    logger.info(f"\n=== 3. 24 Hour Observations by Monitoring Site By geographic bounding box===")
+    enddate = datetime.now().strftime("%Y-%m-%dT%H:%M")
+    startdate = (datetime.now() + timedelta(days=-1)).strftime("%Y-%m-%dT%H:%M")
+    json_site = fetch_arinow_observation_MonitoringSite(
+        bbox="-80.84, 40.20, -79.69, 40.68",
+        startdate=startdate,
+        enddate=enddate,
+        parameters="ozone,pm25",
+        datatype="B",
+        format="application/json",
+    )
+    # Append result to a txt file
+    output_file = "airnow_24HSite.json"
+
+    with open(output_file, "a", encoding="utf-8") as f:
+        if isinstance(json_site, (dict, list)):
+            f.write(json.dumps(json_site, indent=2))
+        else:
+            f.write(str(json_site))
+        f.write("\n")
+
+    json_txt_to_csv(
+        input_txt="airnow_24HSite.json",
+        csv_prefix="airnow_24HSite"
+    )
